@@ -9,9 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The core engine responsible for managing the simulation grid and executing the
- * periodic simulation cycle. It orchestrates resource distribution, state updates,
- * and statistical reporting.
+ * Core engine orchestrating the simulation cycles, entity updates, and resource distribution.
+ * Implements a 5-step tick cycle to ensure consistent simulation state management.
  */
 public class SimulationEngine {
     private Cell[][] map;
@@ -19,9 +18,6 @@ public class SimulationEngine {
     private final List<Distributable> distributionSystems;
     private int tickCount;
 
-    /**
-     * Initializes the simulation engine with empty entity lists and resets the tick counter.
-     */
     public SimulationEngine() {
         this.updatableEntities = new ArrayList<>();
         this.distributionSystems = new ArrayList<>();
@@ -29,21 +25,19 @@ public class SimulationEngine {
     }
 
     /**
-     * Injects the pre-loaded map into the engine and scans for entities
-     * that implement simulation interfaces.
-     * @param loadedMap The 2D grid of Cells provided by the map loader.
-     * @throws SE116ConfigurationException if the map is null or empty.
+     * Prepares the engine with a loaded map and registers entities that require updates.
+     * @param loadedMap The grid data provided by the map loader.
+     * @throws SE116ConfigurationException if the map data is invalid.
      */
     public void setupSimulation(Cell[][] loadedMap) throws SE116ConfigurationException {
         if (loadedMap == null || loadedMap.length == 0) {
-            throw new SE116ConfigurationException("Provided map data is null or empty.");
+            throw new SE116ConfigurationException("Map grid cannot be null or empty.");
         }
 
         this.map = loadedMap;
         this.updatableEntities.clear();
         this.distributionSystems.clear();
 
-        // Scan the grid to identify updatable zones and other interactive components
         for (Cell[] row : map) {
             for (Cell cell : row) {
                 if (cell instanceof Updatable) {
@@ -54,23 +48,18 @@ public class SimulationEngine {
     }
 
     /**
-     * Registers a distribution system (e.g., UtilityDistributor) to the engine.
-     * @param system The distribution logic to be executed during each tick.
+     * Adds a distribution system (e.g., UtilityDistributor) to the simulation.
+     * @param system The system to be registered for periodic distribution.
      */
     public void addDistributionSystem(Distributable system) {
         this.distributionSystems.add(system);
     }
 
     /**
-     * Executes the 5-step simulation cycle:
-     * 1. Reset: Clears temporary tick data (e.g., utility connection status).
-     * 2. Distribute: Runs resource distribution algorithms (Power, Water, Services).
-     * 3. Update: Triggers growth and state logic for all updatable zones.
-     * 4. Produce/Count: Finalizes economic production and gathers statistics.
-     * 5. Report: Increments the simulation clock.
+     * Runs the 5-step simulation cycle.
      */
     public void runTick() {
-        // Step 1: Reset temporary state for all zones
+        // Step 1: Reset per-tick flags for all zones
         for (Cell[] row : map) {
             for (Cell cell : row) {
                 if (cell instanceof Zone) {
@@ -79,17 +68,17 @@ public class SimulationEngine {
             }
         }
 
-        // Step 2: Resource Distribution (Utilities and Services)
+        // Step 2: Distribute resources (FIXED: now passing the map)
         for (Distributable system : distributionSystems) {
-            system.distribute();
+            system.distribute(map);
         }
 
-        // Step 3: Individual Entity Updates (Leveling, etc.)
+        // Step 3: Handle entity-specific logic (e.g., leveling)
         for (Updatable entity : updatableEntities) {
             entity.update();
         }
 
-        // Step 4: Production and Economic Simulation
+        // Step 4: Execute economic production for zones
         for (Cell[] row : map) {
             for (Cell cell : row) {
                 if (cell instanceof Zone) {
@@ -98,11 +87,10 @@ public class SimulationEngine {
             }
         }
 
-        // Step 5: Clock Increment
+        // Step 5: Finalize tick and increment counter
         tickCount++;
     }
 
-    // Getters for simulation state monitoring
     public int getTickCount() { return tickCount; }
     public Cell[][] getMap() { return map; }
 }
