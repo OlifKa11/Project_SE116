@@ -16,7 +16,7 @@ public class CommercialZone extends Cell implements Updatable {
     @Override
     public void update() {
         incomeGenerated = level * 3;
-        System.out.println("Commercial zone updated.");
+        System.out.println("Commercial zone updated!");
     }
 
     public int getIncomeGenerated() {
