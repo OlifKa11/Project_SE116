@@ -1,9 +1,11 @@
 package com.objectville.interfaces;
 
+import com.objectville.cells.Cell;
+
 public interface Distributable {
     /**
-     * Triggers the distribution logic (BFS for utilities or Radius for services)
-     * to provide resources to eligible zones.
+     * Executes the distribution logic across the simulation grid.
+     * @param map The current 2D grid representing the simulation state.
      */
     void distribute(Cell[][] map);
 }
