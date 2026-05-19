@@ -1,11 +1,11 @@
 package com.objectville.cells;
 
 import com.objectville.interfaces.Updatable;
+import com.objectville.constants.UtilityTypes;
 
 /**
- * Base abstract class for all zoned developments in Objectville (Residential, Industrial, Commercial).
- * Provides a standardized structure for utility management, population/job tracking, and growth leveling.
- * Implementing Updatable ensures that all derived zones participate in the simulation cycle.
+ * Base class for all developable areas (Residential, Industrial, Commercial).
+ * Handles utility status and basic growth requirements.
  */
 public abstract class Zone extends Cell implements Updatable {
     protected int level;
@@ -14,23 +14,41 @@ public abstract class Zone extends Cell implements Updatable {
     protected boolean isInternetConnected;
     protected int populationOrJobs;
 
-    /**
-     * Initializes a zone at a specific grid coordinate with default level 1 status.
-     * @param x The horizontal coordinate on the map grid.
-     * @param y The vertical coordinate on the map grid.
-     */
     public Zone(int x, int y) {
         super(x, y);
         this.level = 1;
         this.isPowered = false;
         this.isWatered = false;
         this.isInternetConnected = false;
-        this.populationOrJobs = 0;
     }
 
     /**
-     * Resets utility connectivity flags at the start of each simulation tick.
-     * Ensures that resource distribution is recalculated dynamically during the execution.
+     * Updates utility status based on the provided type. 
+     * Prints a warning if an unrecognized type is passed to help with debugging.
+     */
+    public void receiveUtility(String type) {
+        if (type.equals(UtilityTypes.ELECTRICITY)) {
+            this.isPowered = true;
+        } else if (type.equals(UtilityTypes.WATER)) {
+            this.isWatered = true;
+        } else if (type.equals(UtilityTypes.INTERNET)) {
+            this.isInternetConnected = true;
+        } else {
+            // Elif'in önerisiyle eklenen güvenlik kontrolü
+            System.out.println("Warning: Unknown utility type '" + type + "' received at Zone (" + x + "," + y + ")");
+        }
+    }
+
+    /**
+     * Checks if the zone has basic requirements to operate.
+     */
+    public boolean isOperational() {
+        return isPowered && isWatered;
+    }
+
+    /**
+     * Clears utility flags for the current tick. 
+     * Called at the start of each cycle to re-verify resource access.
      */
     public void resetTickData() {
         this.isPowered = false;
@@ -38,32 +56,5 @@ public abstract class Zone extends Cell implements Updatable {
         this.isInternetConnected = false;
     }
 
-    /**
-     * Updates the connection status for a specific utility type.
-     * @param type The type identifier for the utility (P for Power, W for Water, T for Internet).
-     */
-    public void receiveUtility(String type) {
-        switch (type) {
-            case "P" -> this.isPowered = true;
-            case "W" -> this.isWatered = true;
-            case "T" -> this.isInternetConnected = true;
-        }
-    }
-
-    /**
-     * Abstract method to be implemented by concrete subclasses to define
-     * specific production logic (e.g., generating taxes, goods, or population growth).
-     */
     public abstract void produce();
-
-    // Getters for simulation monitoring and evaluation
-    public int getLevel() { return level; }
-
-    /**
-     * Evaluates if the zone meets the minimum requirements to be considered operational.
-     * Current logic requires both Power and Water for basic functionality.
-     */
-    public boolean isOperational() {
-        return isPowered && isWatered;
-    }
 }
