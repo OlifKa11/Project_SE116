@@ -1,15 +1,14 @@
 package com.objectville.exceptions;
 
 /**
- * Custom exception class used to handle specific errors encountered during
- * map parsing, coordinate validation, or general simulation configuration.
+ * Custom exception for errors during map parsing or simulation setup.
+ * Extends RuntimeException to keep the code clean and avoid mandatory try-catch blocks.
  */
-public class SE116ConfigurationException extends Exception {
+public class SE116ConfigurationException extends RuntimeException {
 
     /**
-     * Constructs a new exception with a specific error message formatted
-     * for map configuration issues.
-     * @param message Detailed description of the configuration error.
+     * Creates a new exception with a specific error message.
+     * @param message Detailed description of the error.
      */
     public SE116ConfigurationException(String message) {
         super("Simulation Configuration Error: " + message);
