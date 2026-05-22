@@ -8,13 +8,12 @@ import com.objectville.interfaces.Distributable;
 import java.util.LinkedList;
 import java.util.Queue;
 
-//Distributes utilities from providers using breadth-first search.
 public class UtilityDistributor implements Distributable {
     private static final int PROVIDER_CAPACITY = 100;
     private final int[] dx = {-1, 1, 0, 0};
     private final int[] dy = {0, 0, -1, 1};
 
-    //Distributes utilities from providers using breadth/first search
+    //Distributes utilities from providers using breadth-first search
     @Override
     public void distribute(Cell[][] map) {
         if(map == null || map.length == 0) {
