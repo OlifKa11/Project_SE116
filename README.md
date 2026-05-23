@@ -5,82 +5,204 @@ Below is the class hierarchy and system architecture designed to ensure a decoup
 
 ```mermaid
 classDiagram
-    class Updatable {
-        <<interface>>
-        +update() void
+    %% Core Game Engine & Management
+    class ObjectVilleGame {
+        -CityMap map
+        -ResourceManager resources
+        -int totalTicks
+        +main(String[] args)
+        +runSimulation()
+        -step1_distributeServices()
+        -step2_distributeUtilities()
+        -step3_distributeResources()
+        -step4_updateZones()
+        -step5_accumulateProduction()
     }
 
-    class Distributable {
-        <<interface>>
-        +distribute(Cell[][] map) void
+    class CityMap {
+        -Cell[][] grid
+        -int width
+        -int height
+        +loadMap(String filename) void
+        +getCell(int x, int y) Cell
+        +getNeighbors(Cell cell) List~Cell~
+        +getCellsWithinRadius(Cell center, int radius) List~Cell~
     }
 
+    class ResourceManager {
+        -int pooledPopulation
+        -int pooledGoods
+        -int pooledLifestyle
+        +distributeResources(List~Zone~ zones) void
+        +accumulateProduction(List~Zone~ zones) void
+    }
+
+    %% Interfaces to satisfy OOP requirements
+    class IUpdatable {
+        <<interface>>
+        +updateLevel() void
+        +calculateOutput() void
+    }
+
+    class IServiceable {
+        <<interface>>
+        +receiveService(ServiceType type) void
+    }
+
+    class IUtilityReceiver {
+        <<interface>>
+        +receiveUtility(UtilityType type, int amount) void
+    }
+
+    class IPassable {
+        <<interface>>
+        +canPassUtility() boolean
+    }
+
+    %% Base Cell Hierarchy
     class Cell {
         <<abstract>>
-        #x: int
-        #y: int
+        #int x
+        #int y
+        #char symbol
+        +getSymbol() char
         +getX() int
         +getY() int
     }
 
+    %% Zones
     class Zone {
         <<abstract>>
-        #level: int
-        #isPowered: boolean
-        #isWatered: boolean
-        #isInternetConnected: boolean
-        #populationOrJobs: int
-        +receiveUtility(String type) void
-        +produce() void
-        +resetTickData() void
+        #int level
+        #int currentOutput
+        #boolean hasSecurity
+        #boolean hasHealth
+        #boolean hasEducation
+        #int electricityReceived
+        #int waterReceived
+        #int internetReceived
+        +updateLevel()* void
+        +calculateOutput()* void
+        +resetTickValues() void
+    }
+
+    class Housing {
+        -int consumedLifestyle
+        +updateLevel() void
+        +calculateOutput() void
+    }
+
+    class Industrial {
+        -int consumedPopulation
+        +updateLevel() void
+        +calculateOutput() void
+    }
+
+    class Commercial {
+        -int consumedPopulation
+        -int consumedGoods
+        +updateLevel() void
+        +calculateOutput() void
+    }
+
+    %% Facilities (Services & Utilities)
+    class Facility {
+        <<abstract>>
+    }
+
+    class ServiceProvider {
+        <<abstract>>
+        #int radius
+        #ServiceType serviceType
+        +distributeService(CityMap map) void
+    }
+
+    class PoliceStation {
+        +PoliceStation()
+    }
+
+    class Hospital {
+        +Hospital()
+    }
+
+    class School {
+        +School()
     }
 
     class UtilityProvider {
         <<abstract>>
-        #capacity: int
-        #usedCapacity: int
-        +canConnect(Cell target) boolean
+        #int capacity
+        #UtilityType utilityType
+        +distributeUtilityBFS(CityMap map) void
     }
 
-    class ServiceBuilding {
-        <<abstract>>
-        #radius: int
-        +provideService() void
+    class PowerPlant {
+        +PowerPlant()
     }
+
+    class WaterPumpingStation {
+        +WaterPumpingStation()
+    }
+
+    class InternetHub {
+        +InternetHub()
+    }
+
+    %% Infrastructure & Empty
+    class Road {
+        +canPassUtility() boolean
+    }
+
+    class EmptyCell {
+        +canPassUtility() boolean
+    }
+
+    %% Enums for Type Safety
+    class ServiceType {
+        <<enumeration>>
+        SECURITY
+        HEALTH
+        EDUCATION
+    }
+
+    class UtilityType {
+        <<enumeration>>
+        ELECTRICITY
+        WATER
+        INTERNET
+    }
+
+    %% Relationships
+    ObjectVilleGame o-- CityMap : uses
+    ObjectVilleGame o-- ResourceManager : uses
+    CityMap *-- Cell : contains
 
     Cell <|-- Zone
-    Cell <|-- UtilityProvider
-    Cell <|-- ServiceBuilding
+    Cell <|-- Facility
     Cell <|-- Road
+    Cell <|-- EmptyCell
 
-    Updatable <|.. Zone
-    Distributable <|.. UtilityProvider
-    Distributable <|.. ServiceBuilding
+    Facility <|-- ServiceProvider
+    Facility <|-- UtilityProvider
 
-    Zone <|-- ResidentialZone
-    Zone <|-- IndustrialZone
-    Zone <|-- CommercialZone
+    Zone ..|> IUpdatable
+    Zone ..|> IServiceable
+    Zone ..|> IUtilityReceiver
+    
+    Road ..|> IPassable
+    EmptyCell ..|> IPassable
+
+    Zone <|-- Housing
+    Zone <|-- Industrial
+    Zone <|-- Commercial
+
+    ServiceProvider <|-- PoliceStation
+    ServiceProvider <|-- Hospital
+    ServiceProvider <|-- School
 
     UtilityProvider <|-- PowerPlant
-    UtilityProvider <|-- WaterPowerPlant
+    UtilityProvider <|-- WaterPumpingStation
     UtilityProvider <|-- InternetHub
 
-    ServiceBuilding <|-- FireStation
-    ServiceBuilding <|-- PoliceStation
-    ServiceBuilding <|-- Hospital
-
-    class SimulationEngine {
-        -map: Cell[][]
-        -tickCount: int
-        -updatableEntities: List~Updatable~
-        -distributionSystems: List~Distributable~
-        +runTick() void
-        +setupSimulation(Cell[][] loadedMap) void
-    }
-
-    class SE116ConfigurationException {
-        +SE116ConfigurationException(String message)
-    }
-
-    SimulationEngine *-- Cell : contains
-    SimulationEngine ..> SE116ConfigurationException : throws
+    ServiceProvider --> ServiceType
+    UtilityProvider --> UtilityType
