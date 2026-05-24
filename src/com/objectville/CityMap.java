@@ -49,7 +49,7 @@ public class CityMap {
                     case 'I':
                         this.grid[y][x] = new IndustrialZone(x,y);
                     case 'E':
-                        this.grid[y][x] = null;
+                        this.grid[y][x] = new EmptyCell(x,y);
                     case 'R':
                         this.grid[y][x] = new Road(x,y);
                     case 'S':
