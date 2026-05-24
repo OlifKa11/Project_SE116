@@ -1,4 +1,6 @@
 package com.objectville.exceptions;
+import com.objectville.cells.*;
+import com.objectville.engine.SimulationEngine;
 
 /**
  * Custom exception for errors during map parsing or simulation setup.
