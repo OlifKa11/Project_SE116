@@ -51,7 +51,7 @@ public class CityMap {
                     case 'E':
                         this.grid[y][x] = null;
                     case 'R':
-                        this.grid[y][x] = null;
+                        this.grid[y][x] = new Road(x,y);
                     case 'S':
                         this.grid[y][x] = null;
                     case 'D':
