@@ -11,10 +11,14 @@ public class Commercial extends Zone {
         this.consumedGoods = 0;
     }
 
+    public void consumeGoods(int amount) {
+        this.consumedGoods = amount;
+    }
+
     @Override
     public void updateLevel() {
 
-        // Missing utilities -> immediate drop to level 0
+        // No utilities -> immediate drop to 0
         if (electirictyReceived == 0 ||
                 waterReceived == 0 ||
                 internetReceived == 0) {
@@ -25,8 +29,10 @@ public class Commercial extends Zone {
 
         // Level 3 conditions
         if (hasSecurity &&
-                consumedPopulation > 1 &&
-                consumedGoods > 1) {
+                hasHealth &&
+                hasEducation &&
+                consumedPopulation > 0 &&
+                consumedGoods > 0) {
 
             if (level < 3) {
                 level++;
@@ -36,7 +42,9 @@ public class Commercial extends Zone {
         }
 
         // Level 2 conditions
-        if (hasSecurity) {
+        if (hasSecurity &&
+                hasHealth &&
+                hasEducation) {
 
             if (level < 2) {
                 level++;
@@ -46,12 +54,8 @@ public class Commercial extends Zone {
         }
 
         // Level 1 conditions
-        if (consumedPopulation > 0 &&
-                consumedGoods > 0) {
-
-            if (level < 1) {
-                level++;
-            }
+        if (level < 1) {
+            level++;
         }
     }
 
@@ -77,10 +81,14 @@ public class Commercial extends Zone {
                 currentOutput = 2 * m;
                 break;
 
-            case 3:
+            default:
                 currentOutput = 2 * m +
                         Math.min(consumedPopulation, consumedGoods);
                 break;
         }
+    }
+    public void resetTickData() {
+        consumedPopulation = 0;
+        consumedGoods = 0;
     }
 }

@@ -8,13 +8,17 @@ public class Industrial extends Zone {
         super(x, y, 'I');
         this.consumedPopulation = 0;
     }
+    public void consumePopulation(int amount) {
+        this.consumedPopulation = amount;
+    }
 
     @Override
     public void updateLevel() {
 
-        // Missing utilities -> immediate drop to level 0
+        // No utilities -> immediate drop to 0
         if (electirictyReceived == 0 ||
-                waterReceived == 0) {
+                waterReceived == 0 ||
+                internetReceived == 0) {
 
             level = 0;
             return;
@@ -22,29 +26,37 @@ public class Industrial extends Zone {
 
         // Level 3 conditions
         if (hasSecurity &&
-                consumedPopulation > 1) {
+                hasHealth &&
+                hasEducation &&
+                consumedPopulation > 0) {
 
             if (level < 3) {
                 level++;
             }
-
-            return;
         }
 
         // Level 2 conditions
-        if (hasSecurity) {
+        else if (hasSecurity &&
+                hasHealth &&
+                hasEducation) {
 
-            if (level < 2) {
-                level++;
+            if (level > 2) {
+                level--;
             }
 
-            return;
+            else if (level < 2) {
+                level++;
+            }
         }
 
         // Level 1 conditions
-        if (consumedPopulation > 0) {
+        else {
 
-            if (level < 1) {
+            if (level > 1) {
+                level--;
+            }
+
+            else if (level < 1) {
                 level++;
             }
         }
@@ -72,9 +84,12 @@ public class Industrial extends Zone {
                 currentOutput = 2 * m;
                 break;
 
-            case 3:
+            default:
                 currentOutput = 2 * m + consumedPopulation;
                 break;
         }
+    }
+    public void resetTickData() {
+        consumedPopulation = 0;
     }
 }

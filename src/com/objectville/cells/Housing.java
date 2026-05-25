@@ -8,6 +8,9 @@ public class Housing extends Zone {
         super(x, y, 'H');
         this.consumedLifestyle = 0;
     }
+    public void consumeLifestyle(int amount) {
+        this.consumedLifestyle = amount;
+    }
 
     @Override
     public void updateLevel() {
@@ -37,7 +40,11 @@ public class Housing extends Zone {
                 hasHealth &&
                 hasEducation) {
 
-            if (level < 2) {
+            if (level > 2) {
+                level--;
+            }
+
+            else if (level < 2) {
                 level++;
             }
         }
@@ -45,12 +52,15 @@ public class Housing extends Zone {
         // Level 1 conditions
         else {
 
-            if (level < 1) {
+            if (level > 1) {
+                level--;
+            }
+
+            else if (level < 1) {
                 level++;
             }
         }
     }
-
     @Override
     public void calculateOutput() {
 
@@ -73,9 +83,12 @@ public class Housing extends Zone {
                 currentOutput = 2 * m;
                 break;
 
-            case 3:
+            default:
                 currentOutput = 2 * m + consumedLifestyle;
                 break;
         }
+    }
+    public void resetTickData() {
+        consumedLifestyle = 0;
     }
 }
