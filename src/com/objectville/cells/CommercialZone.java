@@ -1,5 +1,5 @@
 package com.objectville.cells;
-
+import com.objectville.resources.CityResources;
 public class CommercialZone extends Zone {
 
     public CommercialZone(int x, int y) {
@@ -30,11 +30,14 @@ public class CommercialZone extends Zone {
     @Override
     public void produce() {
 
-        populationOrJobs = level * 3;
+        if (isOperational()) {
 
-        System.out.println(
-                "Commercial zone at (" + x + "," + y + ") generated economy/lifestyle value: "
-                        + populationOrJobs
-        );
+            populationOrJobs += level;
+
+            CityResources.totalLifestyle += level * 3;
+
+            System.out.println("Commercial zone at (" + x + "," + y +
+                    ") increased lifestyle.");
+        }
     }
 }
