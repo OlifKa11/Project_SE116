@@ -7,6 +7,7 @@ import com.objectville.exceptions.SE116ConfigurationException;
 public class ObjectVilleGame {
     private CityMap map;
     private int totalTicks;
+    private ResourceManager manager;
     public static void main(String[] args) {
         try {
             if (args.length < 2) {
@@ -15,6 +16,7 @@ public class ObjectVilleGame {
             ObjectVilleGame game = new ObjectVilleGame();
             game.map= new CityMap();
             game.map.loadMap(args[0]);
+            game.manager = new ResourceManager();
 
             try {
                 game.totalTicks = Integer.parseInt(args[1]);
