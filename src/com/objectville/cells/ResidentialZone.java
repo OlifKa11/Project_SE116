@@ -29,15 +29,15 @@ public class ResidentialZone extends Zone {
 
     @Override
     public void produce() {
-
         if (isOperational()) {
+            int populationProduced = level * 5;
 
-            populationOrJobs += level * 2;
+            CityResources.addPopulation(populationProduced);
 
-            CityResources.totalPopulation += level * 10;
-
-            System.out.println("Residential zone at (" + x + "," + y +
-                    ") increased population to " + populationOrJobs);
+            System.out.println(
+                    "Residential zone at (" + x + "," + y +
+                            ") added " + populationProduced + " population."
+            );
         }
     }
 }

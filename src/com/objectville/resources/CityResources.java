@@ -17,4 +17,15 @@ public class CityResources {
                 ", Population: " + totalPopulation +
                 ", Lifestyle: " + totalLifestyle;
     }
+    public static void addGoods(int amount) {
+        totalGoods += amount;
+    }
+
+    public static void addPopulation(int amount) {
+        totalPopulation += amount;
+    }
+
+    public static void addLifestyle(int amount) {
+        totalLifestyle += amount;
+    }
 }

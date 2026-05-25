@@ -29,15 +29,15 @@ public class CommercialZone extends Zone {
 
     @Override
     public void produce() {
-
         if (isOperational()) {
+            int lifestyleProduced = level * 7;
 
-            populationOrJobs += level;
+            CityResources.addLifestyle(lifestyleProduced);
 
-            CityResources.totalLifestyle += level * 3;
-
-            System.out.println("Commercial zone at (" + x + "," + y +
-                    ") increased lifestyle.");
+            System.out.println(
+                    "Commercial zone at (" + x + "," + y +
+                            ") produced " + lifestyleProduced + " lifestyle."
+            );
         }
     }
 }

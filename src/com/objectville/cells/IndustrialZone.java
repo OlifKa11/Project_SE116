@@ -31,15 +31,20 @@ public class IndustrialZone extends Zone {
 
     @Override
     public void produce() {
-
         if (isOperational()) {
+            int goodsProduced = level * 10;
 
-            populationOrJobs += level * 3;
+            CityResources.addGoods(goodsProduced);
 
-            CityResources.totalGoods += level * 5;
-
-            System.out.println("Industrial zone at (" + x + "," + y +
-                    ") produced goods.");
+            System.out.println(
+                    "Industrial zone at (" + x + "," + y +
+                            ") produced " + goodsProduced + " goods."
+            );
         }
+
+    }
+    @Override
+    public boolean isOperational() {
+        return isPowered && isInternetConnected;
     }
 }
