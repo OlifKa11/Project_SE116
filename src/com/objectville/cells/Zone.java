@@ -12,6 +12,13 @@ public abstract class Zone extends Cell implements Updatable {
     protected boolean isPowered;
     protected boolean isWatered;
     protected boolean isInternetConnected;
+    protected boolean hasSecurity;
+    protected boolean hasHealth;
+    protected boolean hasEducation;
+
+    protected int lifestyleReceived;
+    protected int goodsReceived;
+
     protected int populationOrJobs;
 
     public Zone(int x, int y) {
@@ -20,6 +27,12 @@ public abstract class Zone extends Cell implements Updatable {
         this.isPowered = false;
         this.isWatered = false;
         this.isInternetConnected = false;
+        this.hasSecurity = false;
+        this.hasHealth = false;
+        this.hasEducation = false;
+
+        this.lifestyleReceived = 0;
+        this.goodsReceived = 0;
     }
 
     /**
@@ -54,6 +67,12 @@ public abstract class Zone extends Cell implements Updatable {
         this.isPowered = false;
         this.isWatered = false;
         this.isInternetConnected = false;
+        this.hasSecurity = false;
+        this.hasHealth = false;
+        this.hasEducation = false;
+
+        this.lifestyleReceived = 0;
+        this.goodsReceived = 0;
     }
 
 

@@ -9,19 +9,55 @@ public class CommercialZone extends Zone {
     @Override
     public void update() {
 
-        if (isOperational()) {
+        // LEVEL 1
+        if (populationOrJobs > 0
+                && goodsReceived > 0
+                && isPowered
+                && isWatered
+                && isInternetConnected) {
 
-            if (level < 10) {
-                level++;
-                System.out.println("Commercial zone at (" + x + "," + y + ") leveled up to " + level);
+            if (level < 1) {
+                level = 1;
+
+                System.out.println(
+                        "Commercial zone at (" + x + "," + y +
+                                ") leveled up to " + level
+                );
+            }
+
+            // LEVEL 2
+            if (hasSecurity) {
+
+                if (level < 2) {
+                    level = 2;
+
+                    System.out.println(
+                            "Commercial zone at (" + x + "," + y +
+                                    ") leveled up to " + level
+                    );
+                }
+
+                // LEVEL 3
+                if (populationOrJobs > 5 && goodsReceived > 5) {
+
+                    if (level < 3) {
+                        level = 3;
+
+                        System.out.println(
+                                "Commercial zone at (" + x + "," + y +
+                                        ") leveled up to " + level
+                        );
+                    }
+                }
             }
 
         } else {
+            level = 0;
 
-            if (level > 1) {
-                level--;
-                System.out.println("Commercial zone at (" + x + "," + y + ") leveled down to " + level);
-            }
+            System.out.println(
+                    "Commercial zone at (" + x + "," + y +
+                            ") dropped to level 0"
+            );
         }
 
         produce();
