@@ -1,25 +1,40 @@
 package com.objectville.cells;
 
-import com.objectville.interfaces.Updatable;
-
-public class IndustrialZone extends Cell implements Updatable {
-
-    private int level;
-    private int goodsProduced;
+public class IndustrialZone extends Zone {
 
     public IndustrialZone(int x, int y) {
         super(x, y);
-        this.level = 0;
-        this.goodsProduced = 0;
     }
 
     @Override
     public void update() {
-        goodsProduced = level * 5;
-        System.out.println("Industrial zone updated.");
+
+        if (isOperational()) {
+
+            if (level < 10) {
+                level++;
+                System.out.println("Industrial zone at (" + x + "," + y + ") leveled up to " + level);
+            }
+
+        } else {
+
+            if (level > 1) {
+                level--;
+                System.out.println("Industrial zone at (" + x + "," + y + ") leveled down to " + level);
+            }
+        }
+
+        produce();
     }
 
-    public int getGoodsProduced() {
-        return goodsProduced;
+    @Override
+    public void produce() {
+
+        populationOrJobs = level * 5;
+
+        System.out.println(
+                "Industrial zone at (" + x + "," + y + ") produced goods/jobs: "
+                        + populationOrJobs
+        );
     }
 }

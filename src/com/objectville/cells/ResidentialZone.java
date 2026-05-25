@@ -1,18 +1,40 @@
 package com.objectville.cells;
 
-import com.objectville.interfaces.Updatable;
-
-public class ResidentialZone extends Cell implements Updatable {
-
-    private int level;
+public class ResidentialZone extends Zone {
 
     public ResidentialZone(int x, int y) {
         super(x, y);
-        this.level = 0;
     }
 
     @Override
     public void update() {
-        System.out.println("Residential zone updated.");
+
+        if (isOperational()) {
+
+            if (level < 10) {
+                level++;
+                System.out.println("Residential zone at (" + x + "," + y + ") leveled up to " + level);
+            }
+
+        } else {
+
+            if (level > 1) {
+                level--;
+                System.out.println("Residential zone at (" + x + "," + y + ") leveled down to " + level);
+            }
+        }
+
+        produce();
+    }
+
+    @Override
+    public void produce() {
+
+        populationOrJobs = level * 10;
+
+        System.out.println(
+                "Residential zone at (" + x + "," + y + ") produced population: "
+                        + populationOrJobs
+        );
     }
 }
