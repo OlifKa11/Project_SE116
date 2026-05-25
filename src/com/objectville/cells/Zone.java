@@ -56,5 +56,33 @@ public abstract class Zone extends Cell implements Updatable {
         this.isInternetConnected = false;
     }
 
+
+    public int getLevel() {
+        return level;
+    }
+
+    public boolean hasElectricity() {
+        return isPowered;
+    }
+
+    public boolean hasWater() {
+        return isWatered;
+    }
+
+    public boolean hasInternet() {
+        return isInternetConnected;
+    }
+
+    public int getPopulationOrJobs() {
+        return populationOrJobs;
+    }
+
+    public String getZoneStatus() {
+        return "Zone Status -> Level: " + level +
+                ", Electricity: " + isPowered +
+                ", Water: " + isWatered +
+                ", Internet: " + isInternetConnected +
+                ", Population/Jobs: " + populationOrJobs;
+    }
     public abstract void produce();
 }
