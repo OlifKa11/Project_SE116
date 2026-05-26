@@ -25,7 +25,7 @@ public class CityMap {
     }
 
     // Used for Breadth-First Search (BFS) to find adjacent cells
-    public List<Cell> getNeigbors(Cell cell) { // intentional slight typo
+    public List<Cell> getNeighbors(Cell cell) { // intentional slight typo
         List<Cell> neighbors = new ArrayList<>();
         int x = cell.getX();
         int y = cell.getY();
@@ -42,5 +42,19 @@ public class CityMap {
         // Manhattan or Euclidean distance check goes here
         // ...
         return inRadius;
+    }
+    public void printCity() {
+        System.out.println("=== ObjectVille Current State ===");
+        for (int r = 0; r < grid.length; r++) {
+            for (int c = 0; c < grid[r].length; c++) {
+                if (grid[r][c] != null) {
+                    System.out.print("[" + grid[r][c].getSymbol() + "] ");
+                } else {
+                    System.out.print("[ ] ");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println("=================================");
     }
 }
