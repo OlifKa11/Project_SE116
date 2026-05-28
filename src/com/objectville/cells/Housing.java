@@ -27,7 +27,7 @@ public class Housing extends Zone{
         if (hasSecurity &&
                 hasHealth &&
                 hasEducation &&
-                consumedLifestyle > 0) {
+                recievedLifestyle > 0) {
 
             if (level < 3) {
                 level++;
@@ -83,11 +83,11 @@ public class Housing extends Zone{
                 break;
 
             default:
-                currentOutput = 2 * m + consumedLifestyle;
+                currentOutput = 2 * m + recievedLifestyle;
                 break;
         }
     }
     public void resetTickData() {
-        consumedLifestyle = 0;
+        recievedLifestyle = 0;
     }
 }
