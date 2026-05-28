@@ -1,17 +1,17 @@
 package com.objectville.cells;
 
 public class Commercial extends Zone {
-  private int recievedPopulation;
-    private int recievedGoods;
+  private int receivedPopulation;
+    private int receivedGoods;
 
     public Commercial(int x, int y) {
         super(x, y, 'C');
-        this.recievedPopulation = 0;
-        this.recievedGoods = 0;
+        this.receivedPopulation = 0;
+        this.receivedGoods = 0;
     }
 
-    public void recieveGoods(int amount) {
-        this.recievedGoods = amount;
+    public void receiveGoods(int amount) {
+        this.receivedGoods = amount;
     }
 
     @Override
@@ -30,8 +30,8 @@ public class Commercial extends Zone {
         if (hasSecurity &&
                 hasHealth &&
                 hasEducation &&
-                recievedPopulation > 0 &&
-                recievedGoods > 0) {
+                receivedPopulation > 0 &&
+                receivedGoods > 0) {
 
             if (level < 3) {
                 level++;
@@ -82,12 +82,15 @@ public class Commercial extends Zone {
 
             default:
                 currentOutput = 2 * m +
-                        Math.min(recievedPopulation, recievedGoods);
+                        Math.min(receivedPopulation, receivedGoods);
                 break;
         }
     }
-    public void resetTickData() {
-        recievedPopulation = 0;
-        recievedGoods = 0;
+  public void receivePopulation(int amount) {
+    this.receivedPopulation = amount;
+  }
+  public void resetTickData() {
+        receivedPopulation = 0;
+        receivedGoods = 0;
     }
 }
