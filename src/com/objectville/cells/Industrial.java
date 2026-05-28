@@ -15,7 +15,7 @@ public class Industrial extends Zone{
     public void updateLevel() {
 
         
-        if (electirictyReceived == 0 ||
+        if (electricityReceived == 0 ||
                 waterReceived == 0 ||
                 internetReceived == 0) {
 
@@ -65,7 +65,7 @@ public class Industrial extends Zone{
     public void calculateOutput() {
 
         int m = Math.min(
-                electirictyReceived,
+                electricityReceived,
                 waterReceived
         );
 

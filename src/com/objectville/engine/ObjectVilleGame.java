@@ -4,13 +4,13 @@ import com.objectville.cells.*;
 // The main simulation engine and entry point
 public class ObjectVilleGame {
     private CityMap map;
-    private ResourceManager resorceManager;
+    private ResourceManager resourceManager;
     private int totalTicks;
 
     public ObjectVilleGame(CityMap map, int ticks) {
         this.map = map;
         this.totalTicks = ticks;
-        this.resorceManager = new ResourceManager();
+        this.resourceManager = new ResourceManager();
     }
 
     // The core simulation loop
@@ -31,72 +31,52 @@ public class ObjectVilleGame {
 
             // Step 5: New production is accumulated for the next tick
             step5_accumulateProduction();
+
+            resetZones();
         }
     }
 
+    //Finds ServiceProviders and applies services to zones in radius
     private void step1_distributeServices() {
-        // Logic to find ServiceProviders and apply to zones in radius
+        for (Cell cell : map.getAllCells()) {
+            if (cell instanceof ServiceProvider) {
+                ServiceProvider provider = (ServiceProvider) cell;
+                provider.distributeService(map);
+            }
+        }
     }
 
+    //Finds UtilityProviders and starts BFS
     private void step2_distributeUtilities() {
-        // Logic to find UtilityProviders and start BFS
-    }
-
-    private void step3_poolAndDistributeResources(CityMap cityMap) {
-        int totalPopulation = 0;
-        int totalGoods = 0;
-        int totalLifestyle = 0;
-        Cell[][] grid = cityMap.getGrid();
-
-
-        for (int r = 0; r < grid.length; r++) {
-            for (int c = 0; c < grid[r].length; c++) {
-                Cell cell = grid[r][c];
-                if (cell instanceof Housing) {
-                    totalPopulation += ((Housing) cell).getCurrentOutput();
-                } else if (cell instanceof Industrial) {
-                    totalGoods += ((Industrial) cell).getCurrentOutput();
-                } else if (cell instanceof Commercial) {
-                    totalLifestyle += ((Commercial) cell).getCurrentOutput();
-                }
-            }
-        }
-
-
-        for (int r = 0; r < grid.length; r++) {
-            for (int c = 0; c < grid[r].length; c++) {
-                Cell cell = grid[r][c];
-                if (cell instanceof Industrial) {
-                    ((Industrial) cell).receivePopulation(totalPopulation / 10);
-                } else if (cell instanceof Commercial) {
-                    ((Commercial) cell).receivePopulation(totalPopulation / 5);
-                    ((Commercial) cell).receiveGoods(totalGoods / 5);
-                } else if (cell instanceof Housing) {
-                    ((Housing) cell).receiveLifestyle(totalLifestyle / 10);
-                }
+        for (Cell cell : map.getAllCells()) {
+            if (cell instanceof UtilityProvider) {
+                UtilityProvider provider = (UtilityProvider) cell;
+                provider.distributeUtilityBFS(map);
             }
         }
     }
 
+    private void step3_distributeResources() {
+        resourceManager.distributeResources(map.getAllZones());
+    }
+
+    //Updates all zones and calculates output
     private void step4_updateZones() {
-        // Loops through all zones and calls updateLevel() and calculateOutput()
+        for (Zone zone : map.getAllZones()) {
+            zone.updateLevel();
+            zone.calculateOutput();
+        }
     }
 
-    private void step5_accumulateProduction(Cell[][] grid) {
-        int currentTickTotalOutput = 0;
+    private void step5_accumulateProduction() {
+        resourceManager.accumulateProduction(map.getAllZones());
+        System.out.println("Tick production phase complete.");
+    }
 
-
-        for (int r = 0; r < grid.length; r++) {
-            for (int c = 0; c < grid[r].length; c++) {
-                if (grid[r][c] instanceof Zone) {
-                    Zone zone = (Zone) grid[r][c];
-                    currentTickTotalOutput += zone.getCurrentOutput();
-                }
-            }
+    private void resetZones() {
+        for (Zone zone : map.getAllZones()) {
+            zone.resetTickValues();
         }
-
-
-        System.out.println("Tick production phase complete. Total output generated: " + currentTickTotalOutput);
     }
 
     // Entry point of the application

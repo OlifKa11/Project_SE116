@@ -7,18 +7,18 @@ import java.util.List;
 // Manages the grid and spatial queries for the simulation
 public class CityMap {
     private Cell[][] grid;
-    private int widht;
+    private int width;
     private int height;
 
     public CityMap(int width, int height) {
-        this.widht = width;
+        this.width = width;
         this.height = height;
         this.grid = new Cell[height][width];
     }
 
     // Returns a cell if within bounds
     public Cell getCell(int x, int y) {
-        if (x >= 0 && x < widht && y >= 0 && y < height) {
+        if (x >= 0 && x < width && y >= 0 && y < height) {
             return grid[y][x];
         }
         return null;

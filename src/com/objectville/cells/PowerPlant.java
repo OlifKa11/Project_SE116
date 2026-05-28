@@ -1,4 +1,10 @@
 package com.objectville.cells;
 
-public class PowerPlant {
+import com.objectville.enums.UtilityType;
+
+public class PowerPlant extends UtilityProvider {
+
+    public PowerPlant(int x, int y) {
+        super(x, y, 'P', 100, UtilityType.ELECTRICITY);
+    }
 }

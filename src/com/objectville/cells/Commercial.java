@@ -18,7 +18,7 @@ public class Commercial extends Zone {
     public void updateLevel() {
 
         
-        if (electirictyReceived == 0 ||
+        if (electricityReceived == 0 ||
                 waterReceived == 0 ||
                 internetReceived == 0) {
 
@@ -62,7 +62,7 @@ public class Commercial extends Zone {
     public void calculateOutput() {
 
         int m = Math.min(
-                electirictyReceived,
+                electricityReceived,
                 Math.min(waterReceived, internetReceived)
         );
 

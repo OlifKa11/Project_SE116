@@ -1,4 +1,10 @@
 package com.objectville.cells;
 
-public class PoliceStation {
+import com.objectville.enums.ServiceType;
+
+public class PoliceStation extends ServiceProvider {
+
+    public PoliceStation(int x, int y) {
+        super(x, y, 'F', 5, ServiceType.SECURITY);
+    }
 }

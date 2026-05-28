@@ -4,12 +4,12 @@ import com.objectville.cells.*;
 import java.util.List;
 
 public class ResourceManager {
-    private int pooledPoplation;
+    private int pooledPopulation;
     private int pooledGoods;
     private int pooledLifestyle;
 
     public ResourceManager() {
-        this.pooledPoplation = 0;
+        this.pooledPopulation = 0;
         this.pooledGoods = 0;
         this.pooledLifestyle = 0;
     }
@@ -17,14 +17,14 @@ public class ResourceManager {
     // Step 5: Accumulates production from the current tick
     public void accumulateProduction(List<Zone> zones) {
 
-        this.pooledPoplation = 0;
+        this.pooledPopulation = 0;
         this.pooledGoods = 0;
         this.pooledLifestyle = 0;
 
         // Loop through zones and add their output to the pools
         for (Zone zone : zones) {
             if (zone instanceof Housing) {
-                this.pooledPoplation += zone.getCurrentOutput();
+                this.pooledPopulation += zone.getCurrentOutput();
             } else if (zone instanceof Industrial) {
                 this.pooledGoods += zone.getCurrentOutput();
             } else if (zone instanceof Commercial) {
@@ -46,10 +46,10 @@ public class ResourceManager {
         // Distribute mathematically avoiding divide-by-zero
         for (Zone zone : zones) {
             if (zone instanceof Commercial && commCount > 0) {
-                ((Commercial) zone).receivePopulation(this.pooledPoplation / commCount);
+                ((Commercial) zone).receivePopulation(this.pooledPopulation / commCount);
                 ((Commercial) zone).receiveGoods(this.pooledGoods / commCount);
             } else if (zone instanceof Industrial && indCount > 0) {
-                ((Industrial) zone).receivePopulation(this.pooledPoplation / indCount);
+                ((Industrial) zone).receivePopulation(this.pooledPopulation / indCount);
             } else if (zone instanceof Housing && houseCount > 0) {
                 ((Housing) zone).receiveLifestyle(this.pooledLifestyle / houseCount);
             }

@@ -18,29 +18,29 @@ public abstract class Zone extends Cell implements IUpdatable, IServiceable, IUt
     protected boolean hasEducation;
 
 
-    protected int electirictyReceived;
+    protected int electricityReceived;
     protected int waterReceived;
     protected int internetReceived;
 
     public Zone(int x, int y, char symbol) {
         super(x, y, symbol);
-        this.level = 0; // Fixed: zones must start at level 0
+        this.level = 0;
         this.currentOutput = 0;
         resetTickValues();
     }
 
-    // Resets resources at the begining of each tick
+    // Resets resources at the beginning of each tick
     public void resetTickValues() {
         this.hasSecurity = false;
         this.hasHealth = false;
         this.hasEducation = false;
-        this.electirictyReceived = 0;
+        this.electricityReceived = 0;
         this.waterReceived = 0;
         this.internetReceived = 0;
     }
 
     @Override
-    public void reciveService(ServiceType type) {
+    public void receiveService(ServiceType type) {
         if (type == ServiceType.SECURITY) hasSecurity = true;
         else if (type == ServiceType.HEALTH) hasHealth = true;
         else if (type == ServiceType.EDUCATION) hasEducation = true;
@@ -48,7 +48,7 @@ public abstract class Zone extends Cell implements IUpdatable, IServiceable, IUt
 
     @Override
     public void receiveUtility(UtilityType type, int amount) {
-        if (type == UtilityType.ELECTRICITY) electirictyReceived += amount;
+        if (type == UtilityType.ELECTRICITY) electricityReceived += amount;
         else if (type == UtilityType.WATER) waterReceived += amount;
         else if (type == UtilityType.INTERNET) internetReceived += amount;
     }
