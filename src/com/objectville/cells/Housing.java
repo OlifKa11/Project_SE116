@@ -1,6 +1,6 @@
 package com.objectville.cells;
 
-public class Housing {
+public class Housing extends Zone{
    private int consumedLifestyle;
 
     public Housing(int x, int y) {
