@@ -1,14 +1,14 @@
 package com.objectville.cells;
 
 public class Industrial extends Zone{
-  private int consumedPopulation;
+  private int recievedPopulation;
 
     public Industrial(int x, int y) {
         super(x, y, 'I');
-        this.consumedPopulation = 0;
+        this.recievedPopulation = 0;
     }
-    public void consumePopulation(int amount) {
-        this.consumedPopulation = amount;
+    public void recievePopulation(int amount) {
+        this.recievedPopulation = amount;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class Industrial extends Zone{
         if (hasSecurity &&
                 hasHealth &&
                 hasEducation &&
-                consumedPopulation > 0) {
+                recievedPopulation > 0) {
 
             if (level < 3) {
                 level++;
@@ -84,11 +84,11 @@ public class Industrial extends Zone{
                 break;
 
             default:
-                currentOutput = 2 * m + consumedPopulation;
+                currentOutput = 2 * m + recievedPopulation;
                 break;
         }
     }
     public void resetTickData() {
-        consumedPopulation = 0;
+        recievedPopulation = 0;
     }
 }
