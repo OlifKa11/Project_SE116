@@ -1,14 +1,14 @@
 package com.objectville.cells;
 
 public class Housing extends Zone{
-   private int consumedLifestyle;
+   private int recievedLifestyle;
 
     public Housing(int x, int y) {
         super(x, y, 'H');
-        this.consumedLifestyle = 0;
+        this.recievedLifestyle = 0;
     }
-    public void consumeLifestyle(int amount) {
-        this.consumedLifestyle = amount;
+    public void recieveLifestyle(int amount) {
+        this.recievedLifestyle = amount;
     }
 
     @Override
