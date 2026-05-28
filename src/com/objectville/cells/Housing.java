@@ -1,14 +1,14 @@
 package com.objectville.cells;
 
 public class Housing extends Zone{
-   private int recievedLifestyle;
+   private int receivedLifestyle;
 
     public Housing(int x, int y) {
         super(x, y, 'H');
-        this.recievedLifestyle = 0;
+        this.receivedLifestyle = 0;
     }
-    public void recieveLifestyle(int amount) {
-        this.recievedLifestyle = amount;
+    public void receiveLifestyle(int amount) {
+        this.receivedLifestyle = amount;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class Housing extends Zone{
         if (hasSecurity &&
                 hasHealth &&
                 hasEducation &&
-                recievedLifestyle > 0) {
+                receivedLifestyle > 0) {
 
             if (level < 3) {
                 level++;
@@ -83,11 +83,11 @@ public class Housing extends Zone{
                 break;
 
             default:
-                currentOutput = 2 * m + recievedLifestyle;
+                currentOutput = 2 * m + receivedLifestyle;
                 break;
         }
     }
     public void resetTickData() {
-        recievedLifestyle = 0;
+        receivedLifestyle = 0;
     }
 }
