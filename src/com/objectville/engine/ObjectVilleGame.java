@@ -1,4 +1,5 @@
 package com.objectville.engine;
+import com.objectville.cells.*;
 
 // The main simulation engine and entry point
 public class ObjectVilleGame {
