@@ -1,6 +1,6 @@
 package com.objectville.cells;
 
-public class Commercial {
+public class Commercial extends Zone {
   private int consumedPopulation;
     private int consumedGoods;
 
