@@ -2,7 +2,9 @@ package com.objectville.engine;
 
 import com.objectville.cells.Cell;
 import com.objectville.cells.Zone;
+import com.objectville.cells.*;
 
+import java.io.FileNotFoundException;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,87 @@ public class CityMap {
         this.height = height;
         this.grid = new Cell[height][width];
     }
+
+    public void loadMap(String filePath) {
+        try {
+            java.io.File mapFile = new java.io.File(filePath);
+            java.util.Scanner dimensionSc = new java.util.Scanner(mapFile);
+            int calculatedHeight = 0;
+            int calculatedWidth = 0;
+
+            while (dimensionSc.hasNextLine()) {
+                String line = dimensionSc.nextLine().trim();
+                if (!line.isEmpty()) {
+                    calculatedHeight++;
+                    if (line.length() > calculatedWidth) {
+                        calculatedWidth = line.length();
+                    }
+                }
+            }
+            dimensionSc.close();
+            if (calculatedWidth == 0 || calculatedHeight == 0) {
+                System.err.println("Error: Map file is empty or invalid!");
+                return;
+            }
+            this.width = calculatedWidth;
+            this.height = calculatedHeight;
+            this.grid = new Cell[this.height][this.width];
+            java.util.Scanner populationSc = new java.util.Scanner(mapFile);
+            int row = 0;
+            while (populationSc.hasNextLine() && row < this.height) {
+                String line = populationSc.nextLine().trim();
+                if (line.isEmpty())
+                    continue;
+
+                for (int col = 0; col < line.length() && col < this.width; col++) {
+                    char symbol = line.charAt(col);
+
+                    switch (symbol) {
+                        case 'H':
+                            this.grid[row][col] = new Housing(row, col);
+                            break;
+                        case 'I':
+                            this.grid[row][col] = new Industrial(row, col);
+                            break;
+                        case 'C':
+                            this.grid[row][col] = new Commercial(row, col);
+                            break;
+                        case 'P':
+                            this.grid[row][col] = new PowerPlant(row, col);
+                            break;
+                        case 'W':
+                            this.grid[row][col] = new WaterPumpingStation(row, col);
+                            break;
+                        case 'T':
+                            this.grid[row][col] = new InternetHub(row, col);
+                            break;
+                        case 'F':
+                            this.grid[row][col] = new PoliceStation(row, col);
+                            break;
+                        case 'D':
+                            this.grid[row][col] = new Hospital(row, col);
+                            break;
+                        case 'S':
+                            this.grid[row][col] = new School(row, col);
+                            break;
+                        case 'R':
+                            this.grid[row][col] = new Road(row, col);
+                            break;
+                        default:
+                            this.grid[row][col] = new EmptyCell(row, col);
+                            break;
+                    }
+                }
+                row++;
+            }
+            populationSc.close();
+            System.out.println("Map successfully loaded into grid " + this.width + "x"+ this.height);
+        } catch (Exception e) {
+            System.err.println("Error auto-reading map file: " + e.getMessage());
+        }
+    }
+
+
 
     // Returns a cell if within bounds
     public Cell getCell(int x, int y) {
@@ -41,7 +124,7 @@ public class CityMap {
             int nextY = y + dy[i];
             int nextX = x + dx[i];
             if (nextX>=0 && nextX<width && nextY>=0 && nextY<height){
-                Cell neighbor = grid[nextX][nextY];
+                Cell neighbor = grid[nextY][nextX];
                 if (neighbor != null){
                     neighbors.add(neighbor);
                 }

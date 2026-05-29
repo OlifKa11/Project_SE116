@@ -89,9 +89,13 @@ public class ObjectVilleGame {
 
         String mapFile = args[0];
         int ticks = Integer.parseInt(args[1]);
-
-        // CityMap map = loadMapFromFile(mapFile); // Java IO implementation needed here
-        // ObjectVilleGame game = new ObjectVilleGame(map, ticks);
-        // game.runSimulation();
+        CityMap map = new CityMap(0,0);
+        map.loadMap(mapFile);
+        if(map.getAllCells().size()>0) {
+            ObjectVilleGame game = new ObjectVilleGame(map, ticks);
+            game.runSimulation();
+        } else {
+            System.out.println("Simulation aborted: Map grid is empty.");
+        }
     }
 }
