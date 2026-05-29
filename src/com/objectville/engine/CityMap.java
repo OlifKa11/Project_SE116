@@ -1,6 +1,9 @@
 package com.objectville.engine;
 
 import com.objectville.cells.Cell;
+import com.objectville.cells.Zone;
+
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,4 +58,31 @@ public class CityMap {
         }
         System.out.println("=================================");
     }
+
+    public List<Cell> getAllCells(){
+        List<Cell> allCells = new ArrayList<>();
+        for (int r=0; r<height; r++){
+            for (int c=0; c<width; c++){
+                if (grid[r][c]!=null){
+                    allCells.add(grid[r][c]);
+                }
+            }
+        }
+        return allCells;
+    }
+
+    public List<Zone> getAllZones(){
+        List<Zone> allZones = new ArrayList<>();
+        for (int r=0; r<height; r++){
+            for (int c=0; c<width; c++){
+                if (grid[r][c] instanceof Zone){
+                    allZones.add((Zone) grid [r][c]);
+                }
+            }
+        }
+        return allZones;
+
+    }
+
+
 }
