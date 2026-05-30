@@ -4,10 +4,10 @@ import com.objectville.cells.Cell;
 import com.objectville.cells.Zone;
 import com.objectville.cells.*;
 
-import java.io.FileNotFoundException;
-import java.time.ZoneId;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 // Manages the grid and spatial queries for the simulation
 public class CityMap {
@@ -23,8 +23,8 @@ public class CityMap {
 
     public void loadMap(String filePath) {
         try {
-            java.io.File mapFile = new java.io.File(filePath);
-            java.util.Scanner dimensionSc = new java.util.Scanner(mapFile);
+            File mapFile = new File(filePath);
+            Scanner dimensionSc = new Scanner(mapFile);
             int calculatedHeight = 0;
             int calculatedWidth = 0;
 
@@ -39,13 +39,13 @@ public class CityMap {
             }
             dimensionSc.close();
             if (calculatedWidth == 0 || calculatedHeight == 0) {
-                System.err.println("Error: Map file is empty or invalid!");
+                System.out.println("Error: Map file is empty or invalid!");
                 return;
             }
             this.width = calculatedWidth;
             this.height = calculatedHeight;
             this.grid = new Cell[this.height][this.width];
-            java.util.Scanner populationSc = new java.util.Scanner(mapFile);
+            Scanner populationSc = new Scanner(mapFile);
             int row = 0;
             while (populationSc.hasNextLine() && row < this.height) {
                 String line = populationSc.nextLine().trim();
@@ -57,46 +57,46 @@ public class CityMap {
 
                     switch (symbol) {
                         case 'H':
-                            this.grid[row][col] = new Housing(row, col);
+                            this.grid[row][col] = new Housing(col, row);
                             break;
                         case 'I':
-                            this.grid[row][col] = new Industrial(row, col);
+                            this.grid[row][col] = new Industrial(col, row);
                             break;
                         case 'C':
-                            this.grid[row][col] = new Commercial(row, col);
+                            this.grid[row][col] = new Commercial(col, row);
                             break;
                         case 'P':
-                            this.grid[row][col] = new PowerPlant(row, col);
+                            this.grid[row][col] = new PowerPlant(col, row);
                             break;
                         case 'W':
-                            this.grid[row][col] = new WaterPumpingStation(row, col);
+                            this.grid[row][col] = new WaterPumpingStation(col, row);
                             break;
                         case 'T':
-                            this.grid[row][col] = new InternetHub(row, col);
+                            this.grid[row][col] = new InternetHub(col, row);
                             break;
                         case 'F':
-                            this.grid[row][col] = new PoliceStation(row, col);
+                            this.grid[row][col] = new PoliceStation(col, row);
                             break;
                         case 'D':
-                            this.grid[row][col] = new Hospital(row, col);
+                            this.grid[row][col] = new Hospital(col, row);
                             break;
                         case 'S':
-                            this.grid[row][col] = new School(row, col);
+                            this.grid[row][col] = new School(col, row);
                             break;
                         case 'R':
-                            this.grid[row][col] = new Road(row, col);
+                            this.grid[row][col] = new Road(col, row);
                             break;
                         default:
-                            this.grid[row][col] = new EmptyCell(row, col);
+                            this.grid[row][col] = new EmptyCell(col, row);
                             break;
                     }
                 }
                 row++;
             }
             populationSc.close();
-            System.out.println("Map successfully loaded into grid " + this.width + "x"+ this.height);
+            System.out.println("Map successfully loaded into grid " + this.width + "x" + this.height);
         } catch (Exception e) {
-            System.err.println("Error auto-reading map file: " + e.getMessage());
+            System.out.println("Error auto-reading map file: " + e.getMessage());
         }
     }
 
@@ -159,7 +159,7 @@ public class CityMap {
         return inRadius;
     }
 
-        public void printCity() {
+    public void printCity() {
         System.out.println("=== ObjectVille Current State ===");
         for (int r = 0; r < grid.length; r++) {
             for (int c = 0; c < grid[r].length; c++) {
