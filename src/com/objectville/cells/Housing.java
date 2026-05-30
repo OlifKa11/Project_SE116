@@ -22,44 +22,29 @@ public class Housing extends Zone{
             level = 0;
             return;
         }
+        int targetLevel = 1;
 
-        
-        if (hasSecurity &&
-                hasHealth &&
-                hasEducation &&
-                receivedLifestyle > 0) {
+    if (hasSecurity &&
+            hasHealth &&
+            hasEducation) {
 
-            if (level < 3) {
-                level++;
-            }
-        }
-
-        
-        else if (hasSecurity &&
-                hasHealth &&
-                hasEducation) {
-
-            if (level > 2) {
-                level--;
-            }
-
-            else if (level < 2) {
-                level++;
-            }
-        }
-
-        
-        else {
-
-            if (level > 1) {
-                level--;
-            }
-
-            else if (level < 1) {
-                level++;
-            }
-        }
+        targetLevel = 2;
     }
+
+    if (hasSecurity &&
+            hasHealth &&
+            hasEducation &&
+            receivedLifestyle > 0) {
+
+        targetLevel = 3;
+    }
+
+    if (level < targetLevel) {
+        level++;
+    } else if (level > targetLevel) {
+        level--;
+    }
+}
     @Override
     public void calculateOutput() {
 
