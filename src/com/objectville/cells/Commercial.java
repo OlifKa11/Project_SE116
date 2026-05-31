@@ -20,43 +20,34 @@ public class Commercial extends Zone {
         
         if (electricityReceived == 0 ||
                 waterReceived == 0 ||
-                internetReceived == 0) {
+                internetReceived == 0||
+                receivedPopulation == 0 ||
+                receivedGoods == 0) {
 
             level = 0;
             return;
         }
 
-        
-        if (hasSecurity &&
-                hasHealth &&
-                hasEducation &&
-                receivedPopulation > 0 &&
-                receivedGoods > 0) {
+          int targetLevel = 1;
 
-            if (level < 3) {
-                level++;
-            }
-
-            return;
+        if (hasSecurity) {
+            targetLevel = 2;
         }
 
-        
-        if (hasSecurity &&
-                hasHealth &&
-                hasEducation) {
-
-            if (level < 2) {
-                level++;
-            }
-
-            return;
+        if (hasSecurity && receivedPopulation > 1 && receivedGoods > 1) {
+            targetLevel = 3;
         }
 
-       
-        if (level < 1) {
+        if (level < targetLevel) {
             level++;
+        } else if (level > targetLevel) {
+            level--;
         }
     }
+        
+
+       
+        
 
     @Override
     public void calculateOutput() {
@@ -89,7 +80,8 @@ public class Commercial extends Zone {
   public void receivePopulation(int amount) {
     this.receivedPopulation = amount;
   }
-  public void resetTickData() {
+  public void resetTickValues() {
+         super.resetTickValues();
         receivedPopulation = 0;
         receivedGoods = 0;
     }
