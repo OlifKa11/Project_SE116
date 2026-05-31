@@ -17,50 +17,30 @@ public class Industrial extends Zone{
         
         if (electricityReceived == 0 ||
                 waterReceived == 0 ||
-                internetReceived == 0) {
+                receivedPopulation == 0) {
 
             level = 0;
             return;
         }
 
-        
-        if (hasSecurity &&
-                hasHealth &&
-                hasEducation &&
-                receivedPopulation > 0) {
+        int targetLevel = 1;
 
-            if (level < 3) {
-                level++;
-            }
+        if (hasSecurity) {
+            targetLevel = 2;
         }
 
-        
-        else if (hasSecurity &&
-                hasHealth &&
-                hasEducation) {
-
-            if (level > 2) {
-                level--;
-            }
-
-            else if (level < 2) {
-                level++;
-            }
+        if (hasSecurity && receivedPopulation > 1) {
+            targetLevel = 3;
         }
 
-        
-        else {
-
-            if (level > 1) {
-                level--;
-            }
-
-            else if (level < 1) {
-                level++;
-            }
+        if (level < targetLevel) {
+            level++;
+        } else if (level > targetLevel) {
+            level--;
         }
     }
-
+        
+  
     @Override
     public void calculateOutput() {
 
@@ -88,7 +68,8 @@ public class Industrial extends Zone{
                 break;
         }
     }
-    public void resetTickData() {
-        receivedPopulation = 0;
+    public void resetTickValues() {
+       super.resetTickValues();
+       receivedPopulation = 0;
     }
 }
