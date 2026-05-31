@@ -47,8 +47,14 @@ public abstract class UtilityProvider extends Facility {
 
                             if(neighbor instanceof Zone) {
                                 Zone zone = (Zone) neighbor;
-                                zone.receiveUtility(utilityType, 1); //1 is a temporary value
-                                remaining--;
+                                int demand = zone.getUtilityDemand();
+
+                                if(demand > remaining) {
+                                    demand = remaining;
+                                }
+
+                                zone.receiveUtility(utilityType, demand);
+                                remaining -= demand;
                             }
                         }
                     }
