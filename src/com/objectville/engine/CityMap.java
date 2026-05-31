@@ -1,7 +1,5 @@
 package com.objectville.engine;
 
-import com.objectville.cells.Cell;
-import com.objectville.cells.Zone;
 import com.objectville.cells.*;
 
 import java.io.File;

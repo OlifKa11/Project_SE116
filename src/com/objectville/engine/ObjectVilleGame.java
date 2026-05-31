@@ -16,6 +16,7 @@ public class ObjectVilleGame {
     // The core simulation loop
     public void runSimulation() {
         for (int currentTick = 1; currentTick <= totalTicks; currentTick++) {
+            System.out.println("Tick " + currentTick);
 
             // Step 1: Services are provided (Radius based)
             step1_distributeServices();
