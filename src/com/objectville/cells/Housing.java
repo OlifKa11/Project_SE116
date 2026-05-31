@@ -72,7 +72,8 @@ public class Housing extends Zone{
                 break;
         }
     }
-    public void resetTickData() {
+    public void resetTickValues() {
+          super.resetTickValues();
         receivedLifestyle = 0;
     }
 }
