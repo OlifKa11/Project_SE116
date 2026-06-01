@@ -54,6 +54,7 @@ public abstract class UtilityProvider extends Facility {
                                 }
 
                                 zone.receiveUtility(utilityType, demand);
+                                System.out.println(zone.getClass().getSimpleName() + " at (" + zone.getY() + "," + zone.getX() + ") received " + demand + " " + utilityType.toString().toLowerCase());
                                 remaining -= demand;
                             }
                         }

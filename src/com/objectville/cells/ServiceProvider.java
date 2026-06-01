@@ -24,6 +24,7 @@ public abstract class ServiceProvider extends Facility {
             if(cell instanceof Zone) {
                 Zone zone = (Zone) cell;
                 zone.receiveService(serviceType);
+                System.out.println(zone.getClass().getSimpleName() + " at (" + zone.getY() + "," + zone.getX() + ") received " + serviceType.toString().toLowerCase() + " service");
             }
         }
     }

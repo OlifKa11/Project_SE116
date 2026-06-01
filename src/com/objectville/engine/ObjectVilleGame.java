@@ -71,7 +71,6 @@ public class ObjectVilleGame {
 
     private void step5_accumulateProduction() {
         resourceManager.accumulateProduction(map.getAllZones());
-        System.out.println("Tick production phase complete.");
     }
 
     private void resetZones() {
