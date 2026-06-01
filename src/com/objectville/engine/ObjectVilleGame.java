@@ -14,26 +14,30 @@ public class ObjectVilleGame {
     }
 
     // The core simulation loop
-    public void runSimulation() {
+   public void runSimulation() {
         for (int currentTick = 1; currentTick <= totalTicks; currentTick++) {
             System.out.println("Tick " + currentTick);
 
-            // Step 1: Services are provided (Radius based)
             step1_distributeServices();
-
-            // Step 2: Utilities are distributed via BFS
             step2_distributeUtilities();
-
-            // Step 3: Previous tick's production is distributed
             step3_distributeResources();
-
-            // Step 4: Zones compute new level and output based on received utilities/resources
             step4_updateZones();
-
-            // Step 5: New production is accumulated for the next tick
             step5_accumulateProduction();
 
-            resetZones();
+            
+            resetZones(); 
+        }
+    }
+
+    
+    private void resetZones() {
+        Cell[][] grid = this.map.getGrid();
+        for (int r = 0; r < grid.length; r++) {
+            for (int c = 0; c < grid[r].length; c++) {
+                if (grid[r][c] instanceof Zone) {
+                    ((Zone) grid[r][c]).resetTickValues();
+                }
+            }
         }
     }
 
