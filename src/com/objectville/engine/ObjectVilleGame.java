@@ -31,13 +31,9 @@ public class ObjectVilleGame {
 
     
     private void resetZones() {
-        Cell[][] grid = this.map.getGrid();
-        for (int r = 0; r < grid.length; r++) {
-            for (int c = 0; c < grid[r].length; c++) {
-                if (grid[r][c] instanceof Zone) {
-                    ((Zone) grid[r][c]).resetTickValues();
-                }
-            }
+        
+        for (Zone zone : map.getAllZones()) {
+            zone.resetTickValues();
         }
     }
 
