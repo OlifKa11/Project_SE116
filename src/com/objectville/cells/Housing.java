@@ -2,6 +2,7 @@ package com.objectville.cells;
 
 public class Housing extends Zone{
    private int receivedLifestyle;
+   private int oldLevel;
 
     public Housing(int x, int y) {
         super(x, y, 'H');
@@ -13,7 +14,7 @@ public class Housing extends Zone{
 
     @Override
     public void updateLevel() {
-
+       oldLevel = level;
         
         if (electricityReceived == 0 ||
                 waterReceived == 0 ||
@@ -71,7 +72,21 @@ public class Housing extends Zone{
                 currentOutput = 2 * m + receivedLifestyle;
                 break;
         }
+
+       if (currentOutput > 0) {
+          System.out.println("House at (" + getY() + "," + getX() + ") generated " + currentOutput + " population");
+       }
+       printLevelChange();
     }
+
+    private void printLevelChange() {
+       if (level > oldLevel) {
+          System.out.println("House at (" + getY() + "," + getX() + ") levels up from " + oldLevel + " to " + level);
+       } else if (level < oldLevel) {
+          System.out.println("House at (" + getY() + "," + getX() + ") levels down from " + oldLevel + " to " + level);
+       }
+    }
+   
     public void resetTickValues() {
           super.resetTickValues();
         receivedLifestyle = 0;
