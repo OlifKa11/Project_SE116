@@ -43,13 +43,17 @@ public class ResourceManager {
             else if (z instanceof Housing) houseCount++;
         }
 
+        int workerZoneCount = commCount + indCount;
+
         // Distribute mathematically avoiding divide-by-zero
         for (Zone zone : zones) {
             if (zone instanceof Commercial && commCount > 0) {
-                ((Commercial) zone).receivePopulation(this.pooledPopulation / commCount);
+                if(workerZoneCount > 0) {
+                    ((Commercial) zone).receivePopulation(this.pooledPopulation / workerZoneCount);
+                }
                 ((Commercial) zone).receiveGoods(this.pooledGoods / commCount);
-            } else if (zone instanceof Industrial && indCount > 0) {
-                ((Industrial) zone).receivePopulation(this.pooledPopulation / indCount);
+            } else if (zone instanceof Industrial && workerZoneCount > 0) {
+                ((Industrial) zone).receivePopulation(this.pooledPopulation / workerZoneCount);
             } else if (zone instanceof Housing && houseCount > 0) {
                 ((Housing) zone).receiveLifestyle(this.pooledLifestyle / houseCount);
             }

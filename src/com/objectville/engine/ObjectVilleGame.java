@@ -77,11 +77,6 @@ public class ObjectVilleGame {
         resourceManager.accumulateProduction(map.getAllZones());
     }
 
-    private void resetZones() {
-        for (Zone zone : map.getAllZones()) {
-            zone.resetTickValues();
-        }
-    }
 
     // Entry point of the application
     public static void main(String[] args) {

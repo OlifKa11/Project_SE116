@@ -60,6 +60,12 @@ public abstract class Zone extends Cell implements IUpdatable, IServiceable, IUt
 
     public int getLevel() { return level; }
     public int getCurrentOutput() { return currentOutput; }
+    public int getUtilityDemand() {
+        if (currentOutput < 1) {
+            return 1;
+        }
+        return currentOutput;
+    }
 
     public abstract void updateLevel();
     public abstract void calculateOutput();
