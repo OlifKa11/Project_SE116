@@ -55,6 +55,12 @@ public abstract class UtilityProvider extends Facility {
 
                                 zone.receiveUtility(utilityType, demand);
                                 remaining -= demand;
+                                String zoneName = zone.getClass().getSimpleName();
+                                if (zone instanceof Housing) {
+                                    zoneName = "House";
+                                }
+                                System.out.println(zoneName + " at (" + zone.getY() + "," + zone.getX() + ") received " + demand + " " + utilityType.toString().toLowerCase());
+                                remaining -= demand;
                             }
                         }
                     }
