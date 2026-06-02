@@ -16,29 +16,33 @@ public class Industrial extends Zone{
 
         
         if (electricityReceived == 0 ||
-                waterReceived == 0 ||
-                receivedPopulation == 0) {
+                waterReceived == 0 ) {
+                
 
             level = 0;
             return;
         }
 
-        int targetLevel = 1;
+        int targetLevel = 0;
 
-        if (hasSecurity) {
-            targetLevel = 2;
-        }
-
-        if (hasSecurity && receivedPopulation > 1) {
-            targetLevel = 3;
-        }
-
-        if (level < targetLevel) {
-            level++;
-        } else if (level > targetLevel) {
-            level--;
-        }
+        if (receivedPopulation > 0) {
+        targetLevel = 1;
     }
+
+    if (receivedPopulation > 0 && hasSecurity) {
+        targetLevel = 2;
+    }
+
+    if (receivedPopulation > 1 && hasSecurity) {
+        targetLevel = 3;
+    }
+
+    if (level < targetLevel) {
+        level++;
+    } else if (level > targetLevel) {
+        level--;
+    }
+}
         
   
     @Override
