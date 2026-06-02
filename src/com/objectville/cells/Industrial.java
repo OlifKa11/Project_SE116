@@ -2,6 +2,7 @@ package com.objectville.cells;
 
 public class Industrial extends Zone{
   private int receivedPopulation;
+  private int oldLevel;
 
     public Industrial(int x, int y) {
         super(x, y, 'I');
@@ -13,7 +14,7 @@ public class Industrial extends Zone{
 
     @Override
     public void updateLevel() {
-
+      oldLevel = level;
         
         if (electricityReceived == 0 ||
                 waterReceived == 0 ) {
@@ -71,7 +72,21 @@ public class Industrial extends Zone{
                 currentOutput = 2 * m + receivedPopulation;
                 break;
         }
+
+        if(currentOutput > 0) {
+            System.out.println("Industrial at (" + getY() + "," + getX() + ") generated " + currentOutput + " goods");
+        }
+        printLevelChange();
     }
+
+    private void printLevelChange() {
+        if (level > oldLevel) {
+            System.out.println("Industrial at (" + getY() + "," + getX() + ") levels up from " + oldLevel + " to " + level);
+        } else if (level < oldLevel) {
+            System.out.println("Industrial at (" + getY() + "," + getX() + ") levels down from " + oldLevel + " to " + level);
+       }
+    }
+  
     public void resetTickValues() {
        super.resetTickValues();
        receivedPopulation = 0;
