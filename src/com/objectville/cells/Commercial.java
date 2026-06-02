@@ -2,7 +2,8 @@ package com.objectville.cells;
 
 public class Commercial extends Zone {
   private int receivedPopulation;
-    private int receivedGoods;
+  private int receivedGoods;
+  private int oldLevel;
 
     public Commercial(int x, int y) {
         super(x, y, 'C');
@@ -16,7 +17,7 @@ public class Commercial extends Zone {
 
     @Override
     public void updateLevel() {
-
+        oldLevel = level;
         
         if (electricityReceived == 0 ||
                 waterReceived == 0 ||
@@ -79,7 +80,21 @@ public class Commercial extends Zone {
                         Math.min(receivedPopulation, receivedGoods);
                 break;
         }
+
+        if (currentOutput > 0) {
+            System.out.println("Commercial at (" + getY() + "," + getX() + ") generated " + currentOutput + " lifestyle");
+        }
+        printLevelChange();
     }
+
+  private void printLevelChange() {
+    if (level > oldLevel) {
+        System.out.println("Commercial at (" + getY() + "," + getX() + ") levels up from " + oldLevel + " to " + level);
+    } else if (level < oldLevel) {
+        System.out.println("Commercial at (" + getY() + "," + getX() + ") levels down from " + oldLevel + " to " + level);
+    }
+  }
+  
   public void receivePopulation(int amount) {
     this.receivedPopulation = amount;
   }
