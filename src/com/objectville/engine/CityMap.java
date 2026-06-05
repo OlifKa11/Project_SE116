@@ -157,7 +157,9 @@ public class CityMap {
         return inRadius;
     }
 
-    public void printCity() {
+   /** took this method into commet since not used anymore
+   
+   public void printCity() {
         System.out.println("=== ObjectVille Current State ===");
         for (int r = 0; r < grid.length; r++) {
             for (int c = 0; c < grid[r].length; c++) {
@@ -171,6 +173,7 @@ public class CityMap {
         }
         System.out.println("=================================");
     }
+    **/
 
     public List<Cell> getAllCells(){
         List<Cell> allCells = new ArrayList<>();
